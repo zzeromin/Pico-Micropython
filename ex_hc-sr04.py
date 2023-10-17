@@ -1,10 +1,10 @@
 from machine import Pin
 import utime
 
-trigger_pin = Pin(2, Pin.OUT)
-echo_pin = Pin(3, Pin.IN)
+trigger_pin = Pin(21, Pin.OUT)
+echo_pin = Pin(20, Pin.IN)
 
-led = Pin(22, Pin.OUT)
+led = Pin(17, Pin.OUT)
 
 def measure_distance():
     trigger_pin.on()
