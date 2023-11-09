@@ -1,28 +1,19 @@
-from machine import Pin
+from machine import Pin, time_pulse_us
 import utime
 
-trigger_pin = Pin(21, Pin.OUT)
-echo_pin = Pin(20, Pin.IN)
+trig = Pin(21, Pin.OUT)
+echo = Pin(20, Pin.IN)
 
-led = Pin(17, Pin.OUT)
+led = Pin(25, Pin.OUT)
 
-def measure_distance():
-    trigger_pin.on()
+while True:    
+    trig.low()
+    utime.sleep_us(2)
+    trig.high()
     utime.sleep_us(10)
-    trigger_pin.off()
-    
-    while echo_pin.value() == 0:
-        pulse_start = utime.ticks_us()
-    while echo_pin.value() == 1:
-        pulse_end = utime.ticks_us()
-    
-    pulse_duration = utime.ticks_diff(pulse_end, pulse_start)
-    distance = (pulse_duration * 0.0343) / 2  
-
-    return distance
-
-while True:
-    distance = measure_distance()
+    trig.low()
+    pulse_duration = time_pulse_us(echo, Pin.high)
+    distance = (pulse_duration / 29) / 2  
     print(f"Distance: {distance} cm")
     
     if distance < 10:
